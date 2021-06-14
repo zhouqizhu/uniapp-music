@@ -1,0 +1,64 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"backgroundColor":"#FAFAFA"
+			}
+		}
+        ,{
+            "path" : "pages/login/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/video/video",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-music",
+		"navigationBarBackgroundColor": "#FAFAFA",
+		"backgroundColor": "#FAFAFA"
+	},
+	"tabBar":{
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"fontSize":"25rpx",
+		"list":[{
+			"pagePath":"pages/index/index",
+			"iconPath":"static/music-note.png",
+			"selectedIconPath":"static/music-note1.png",
+			"text":"音乐"
+			
+		},{
+			"pagePath":"pages/video/video",
+			"iconPath":"static/Video.png",
+			"selectedIconPath":"static/Video1.png",
+			"text":"视频"
+			
+		}]
+	}
+}

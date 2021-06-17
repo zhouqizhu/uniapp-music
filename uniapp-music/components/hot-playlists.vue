@@ -1,11 +1,11 @@
 <template>
-	<view>
-		<view class="playLists" v-for="item in playLists" :key="item.id">
-			<view>
+	<view style="height: 440rpx;">
+		<scroll-view scroll-x="true" @scroll="scroll" style="width: 200%;overflow:hidden;white-space:nowrap;">
+			<scroll-view class="playLists" v-for="item in playLists" :key="item.id">
 				<image :src="item.coverImgUrl"></image>
-			</view>
-			<view class="playListsName">{{item.name}}</view>
-		</view>
+				<view class="playListsName">{{item.name}}</view>
+			</scroll-view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -15,27 +15,44 @@
 		props:['playLists'],
 		data() {
 			return {
+				scrollTop: 0,
+				old: {
+				    scrollTop: 0
+				}
 			};
 		},
-
+		methods:{
+			scroll:function(e){
+				this.old.scrollTop = e.detail.scrollTop
+			}
+		}
 	}
 </script>
 
 <style lang="scss">
-.playLists{
-	margin: 15px 10px;
-	width: 345rpx;
-	height: 306rpx;
-	overflow: hidden;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	image{
-		width: 330px;
-		height: 250px;
+	scroll-view{
+			width: 100%;
+			height: 350rpx;
+			white-space: nowrap;
+		}
+	.playLists{
+		margin: 15rpx 10rpx;
+		width: 20%;
+		height: 100%;
+		display: inline-block;
+		// flex-wrap: nowrap;
+		// float: left;
+		// justify-content: space-around;
+		image{
+			width: 95%;
+			height: 85%;
+		}
+		.playListsName{
+			font-size: 6px;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
-	.playListsName{
-		width: 50%;
-	}
-}
+
 </style>

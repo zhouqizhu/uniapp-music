@@ -34,6 +34,16 @@
             }
             
         }
+		,{
+		    "path" : "common/playsongs/playsongs",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

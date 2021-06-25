@@ -93,7 +93,7 @@
 	.playliststitle{
 		font-weight: bolder;
 		float: left;
-		margin: 20rpx 100rpx;
+		margin: 20rpx 10rpx;
 		width: 150rpx;
 	}
 	.moreplaylists{

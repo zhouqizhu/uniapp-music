@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="newSongs" v-for="(item,index) in newSongs" :keys="index">
-			<image class="songPic" :src="item.picUrl"></image>
+			<image class="songPic" :src="item.picUrl" @click="playsong(item.id)"></image>
 			<view class="songName">{{item.name}}</view>
 		</view>
 	</view>
@@ -13,8 +13,21 @@
 		props:['newSongs'],
 		data() {
 			return {
-				
 			};
+		},
+		methods:{
+			async playsong(id){
+				console.log(id)
+				uni.navigateTo({
+					url:'../../common/playsongs/playsongs',
+					success:function(res){
+						res.eventChannel.emit('acceptDataFromOpenerPage', { data: id })
+					},
+					fail() {
+						console.log(11)
+					}
+				})
+			}
 		}
 	}
 </script>

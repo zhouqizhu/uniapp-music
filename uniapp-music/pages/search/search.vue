@@ -16,7 +16,6 @@
 						</view>
 					</view>
 				</block>
-				
 			</scroll-view>
 			<scroll-view class="keyword-box" v-show="!isShowKeywordList" scroll-y>
 				<view class="keyword-block" v-if="oldKeywordList.length>0">
@@ -103,7 +102,6 @@
 					url:"/search/hot/detail"
 				})
 				this.hotKeywordList = res.data.data
-				console.log(this.hotKeywordList)
 			}, 
 			//监听输入
 			inputChange(event) {
@@ -184,7 +182,6 @@
 				uni.getStorage({
 					key: 'OldKeys',
 					success: (res) => {
-						console.log(res.data)
 						var OldKeys = JSON.parse(res.data);
 						var findIndex = OldKeys.indexOf(keyword);
 						if (findIndex == -1) {

@@ -42,7 +42,7 @@
 				// width: 375rpx;
 				// height: 100rpx;
 				.rewardname{
-					font-size: 3rpx;
+					font-size: 30rpx;
 					// display: inline-block;
 					// width: 375rpx;
 					// height: 60rpx;

@@ -46,7 +46,7 @@
 			},
 			async getvideo(){
 				const res = await this.$myRequest({
-					url:'/top/mv?limit=8'
+					url:'/top/mv?limit=14'
 				})
 				this.recommedvideo = res.data.data
 				console.log(res.data.data)
@@ -56,8 +56,8 @@
 					url:'/mv/all'
 				})
 				this.allMv = res.data.data
-				console.log(res.data.data)
-			}
+			},
+
 		}
 		
 	}

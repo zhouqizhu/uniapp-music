@@ -1,7 +1,7 @@
 <template>
-	<view style="height: 150rpx;">
-		<scroll-view class="recommedVideo" v-for="item in recommedvideo" :keys="item.artistId" style="height: 200%;overflow:hidden;white-space:nowrap;">
-			<image :src="item.cover"></image>
+	<view>
+		<scroll-view class="recommedVideo" v-for="item in recommedvideo" :keys="item.artistId" >
+			<image :src="item.cover" @click="toplay(item.id)"></image>
 			<view class="recommedVideoName">
 				{{item.name}}
 			</view>
@@ -19,31 +19,36 @@
 			};
 		},
 		methods:{
+			toplay(id){
+				uni.navigateTo({
+					url:'../../common/recommedVideo/recommedVideo',
+					success: (res) => {
+						res.eventChannel.emit('acceptDataFromOpenerPage',{ data:id })
+					}
+				})
+			}
 		}
 	}
 </script>
 
 <style lang="scss">
-	scroll-view{
-			height: 100%;
-			white-space: nowrap;
-		}
 	.recommedVideo{
-		margin: 15rpx 18rpx;
-		width: 45%;
-		height: 25%;
+		margin: 1rpx 15rpx;
+		width: 345rpx;
+		height: 300rpx;
 		display: inline-block;
 		// flex-wrap: nowrap;
 		// float: left;
 		// justify-content: space-around;
 		image{
-			width: 95%;
-			height: 75%;
+			width: 300rpx;
+			height:235rpx;
 		}
 		.recommedVideoName{
-			font-size: 35rpx;
-			white-space: nowrap;
-			text-overflow: ellipsis;
+			height: 27rpx;
+			font-size: 25rpx;
+			// white-space: wrap;
+			// // text-overflow: ellipsis;
 			text-align: center;
 		}
 	}

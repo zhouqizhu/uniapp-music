@@ -11,7 +11,7 @@
 		<!-- 热门歌单推荐 -->
 		<view>
 			<view class="playliststitle">热门歌单</view>
-			<view class="moreplaylists">更多>></view>
+			<view class="moreplaylists" @click="morePlayLists">更多>></view>
 			<hot-playlists :playLists="playLists"></hot-playlists>
 		</view>
 		<!-- 每日推荐歌曲 -->
@@ -33,11 +33,14 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	import hotplaylists from '../../components/hot-playlists'
 	import newSongs from '../../components/new-songs.vue'
 	import artistToplist from '../../components/artistToplist.vue'
 	import rewardToplist from '../../components/rewardToplist.vue'
 	export default {
+		 // 对全局变量进行监控
+		computed:mapState(['forcedLogin','hasLogin','userName']),
 		data() {
 			return {
 				playLists:[],
@@ -53,6 +56,24 @@
 			"reward-toplist":rewardToplist
 			},
 		onLoad(){
+			if(!this.hasLogin){
+				uni.showModal({
+					title:'未登录',
+					content:'您未登录，需要登陆后才能继续',
+					showCancel:!this.forcedLogin,
+					success: (res) => {
+						if(this.forcedLogin){
+							uni.reLaunch({
+								url:'../login/login'
+							})
+						}else{
+							uni.navigateTo({
+								url:'../login/login'
+							})
+						}
+					}
+				})
+			}
 			this.getHotPlayLists()
 			this.getNewSongs()
 			this.toplists()
@@ -83,7 +104,12 @@
 				})
 				this.artistToplist = res.data.artistToplist.artists
 				this.rewardToplist = res.data.rewardToplist.songs
-				console.log(res.data)
+				console.log(res.data.rewardToplist.songs)
+			},
+			morePlayLists(){
+				uni.navigateTo({
+					url:'../../common/hotplaylists/hotplaylists'
+				})
 			}
 		}
 	}

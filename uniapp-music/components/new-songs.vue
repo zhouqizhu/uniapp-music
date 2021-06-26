@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<view class="newSongs" v-for="(item,index) in newSongs" :keys="index">
-			<image class="songPic" :src="item.picUrl" @click="playsong(item.id)"></image>
+		<view class="newSongs" v-for="(item,index) in newSongs" :keys="index" @click="playsong(item.id)">
+			<image class="songPic" :src="item.picUrl"></image>
 			<view class="songName">{{item.name}}</view>
 		</view>
 	</view>
@@ -16,15 +16,14 @@
 			};
 		},
 		methods:{
-			async playsong(id){
-				console.log(id)
+			playsong(id){
 				uni.navigateTo({
 					url:'../../common/playsongs/playsongs',
 					success:function(res){
 						res.eventChannel.emit('acceptDataFromOpenerPage', { data: id })
 					},
 					fail() {
-						console.log(11)
+						console.log("跳转失败")
 					}
 				})
 			}
@@ -44,8 +43,10 @@
 			height: 200rpx;
 		}
 		.songName{
-			display: block;
-			margin: 80rpx 220rpx;
+			float: left;
+			margin: -100rpx 250rpx;
+			width: 300rpx;
+			height: 200rpx;
 		}
 	}
 </style>

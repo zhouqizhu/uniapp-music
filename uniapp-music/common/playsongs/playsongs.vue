@@ -3,10 +3,10 @@
 		<view class="">
 			<view class="songName">{{songName}}</view>
 			<view class="author">{{author}}</view>
-			<image :src="image"></image>
+			<image class="songPic" :src="image"></image>
 		<!-- 渲染出每句歌词 -->
 			<view class="other-big" :style="{'top':top}">
-				<view class="other" :style="{'color':index==nowlirics?'#EB4A38':'' , 'transform':'translateY('+ height+ 'rpx)'}"
+				<view class="other" :style="{'color':index==nowlirics?'#EB4A38':'' , 'transform':'translateY('+ 3*height+ 'rpx)','font-size':index==nowlirics?'50rpx':''}"
 				v-for="(item,index) in arr" :key="index" style="text-align: center;">
 					{{item.words}}
 				</view>
@@ -14,8 +14,10 @@
 					<!-- 播放、暂停按钮 -->
 			<view class="other-flex">
 				<view class="other-img">
-					<image @tap="playsong" src="../../static/70BasicIcons-all-64.png" mode="" v-show="playbool"></image>
-					<image @tap="playsong" src="../../static/bofang.png" mode="" v-show="!playbool"></image>
+					<image src="../../static/10qiehuanqizuo.png" @tap="lastsong"></image>
+					<image @tap="playsong" src="../../static/70BasicIcons-all-64.png" v-show="playbool"></image>
+					<image @tap="playsong" src="../../static/bofang.png" v-show="!playbool"></image>
+					<image src="../../static/9qiehuanqiyou.png" @tap="nextsong"></image>
 				</view>
 			</view>
 
@@ -33,9 +35,9 @@
 				arr: "",
 				nowtimes: 0,
 				nowlirics: '',
-				top: '1rpx',
 				height: "",
 				id:'',
+				top:'',
 				playsongs:[],
 				songName:'',
 				author:'',
@@ -56,6 +58,13 @@
 		  this.id = mydata
 		  this.getsongsUrl()
 		  this.getsonglyric()
+		},
+		destroyed: () => {
+			const res = uni.navigateBack({
+			})
+			if(res){
+				innerAudioContext.stop()
+			}
 		},
 		methods: {
 			async getsongsUrl(id){
@@ -109,8 +118,8 @@
 						if(realtime < arr[i].time){
 							var newi = i - 1
 							that.nowlirics = newi
-							that.top = (newi*-30) + 250 +"rpx"
-							var height = 25- newi * 30
+							that.top = (newi*-30)  +"rpx"
+							var height = - newi * 30
 							that.height = height
 							break
 						}
@@ -143,7 +152,9 @@
 					innerAudioContext.play()
 					this.playbool = false
 				}
-			}
+			},
+			lastsong(){},
+			nextsong(){}
 		}
 	}
 </script>
@@ -161,7 +172,7 @@
 		font-weight: bolder;
 		font-size: 35rpx;
 	}
-	image{
+	.songPic{
 		display: flex;
 		width: 300rpx;
 		height: 300rpx;
@@ -169,22 +180,26 @@
 		margin: 20rpx auto;
 	}
 	.other-big{
-		height: 700rpx;
+		height: 400rpx;
 		width: 750rpx;
 		overflow: hidden;
 		overflow-y: scroll;
 		line-height: 90rpx;
 	}
-		.other-img {
-			background-color: #DBF1E1;
-			width: 50%;
-			border-radius: 50rpx;
-			display: flex;
-			justify-content: center;
-			padding: 2%;
-		}
-		.other-flex {
-			display: flex;
-			justify-content: center;
-		}
+	.other-img {
+		margin: 30rpx 10rpx;
+		background-color: #DBF1E1;
+		width: 550rpx;
+		height: 200rpx;
+		border-radius: 60rpx;
+		display: flex;
+	}
+	image{
+		width: 200rpx;
+		height: 200rpx;
+	}
+	.other-flex {
+		display: flex;
+		justify-content: center;
+	}
 </style>

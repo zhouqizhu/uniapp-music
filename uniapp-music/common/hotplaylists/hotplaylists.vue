@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="playlists" v-for="item in playLists" :key="item.id">
+		<view class="playlists" v-for="item in playLists" :key="item.id" @click="toliatsdetail(item.id)">
 			<image :src="item.coverImgUrl"></image>
 			<view class="playListsName">{{item.name}}</view>
 		</view>
@@ -24,6 +24,17 @@
 				})
 				this.playLists = res.data.playlists
 			},
+			toliatsdetail(id){
+				uni.navigateTo({
+					url:'../../common/listdetail/listdetail',
+					success:function(res){
+						res.eventChannel.emit('acceptDataFromOpenerPage', { data: id })
+					},
+					fail() {
+						console.log("跳转失败")
+					}
+				})
+			}
 		}
 	}
 </script>

@@ -66,7 +66,7 @@ export default {
 		//HM修改 触发组件input事件
 		inputChange(event){
 			var keyword = event.detail.value;
-			this.$emit('input', keyword);
+			this.$emit('inputVal', keyword);
 			if (this.inputVal) {
 				this.isDelShow = true;
 			}

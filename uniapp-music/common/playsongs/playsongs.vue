@@ -1,26 +1,32 @@
 <template>
 	<view>
-		<view class="">
-			<view class="songName">{{songName}}</view>
-			<view class="author">{{author}}</view>
-			<image class="songPic" :src="image"></image>
+		<view class="songName">{{songName}}</view>
+		<view class="author">{{author}}</view>
+		<image class="songPic" :src="image"></image>
 		<!-- 渲染出每句歌词 -->
-			<view class="other-big" :style="{'top':top}">
-				<view class="other" :style="{'color':index==nowlirics?'#EB4A38':'' , 'transform':'translateY('+ 3*height+ 'rpx)','font-size':index==nowlirics?'50rpx':''}"
-				v-for="(item,index) in arr" :key="index" style="text-align: center;">
-					{{item.words}}
+		<view class="other-big" :style="{'top':top}">
+			<view class="other" :style="{'color':index==nowlirics?'#EB4A38':'' , 'transform':'translateY('+ 3*height+ 'rpx)','font-size':index==nowlirics?'50rpx':''}"
+			v-for="(item,index) in arr" :key="index" style="text-align: center;">{{item.words}}</view>
+		</view>
+		<!-- 播放、暂停按钮 -->
+		<view class="other-flex">
+			<view class="other-img">
+				<image src="../../static/10qiehuanqizuo.png" @tap="lastsong"></image>
+				<image @tap="playsong" src="../../static/70BasicIcons-all-64.png" v-show="playbool"></image>
+				<image @tap="playsong" src="../../static/bofang.png" v-show="!playbool"></image>
+				<image src="../../static/9qiehuanqiyou.png" @tap="nextsong"></image>
+			</view>
+		</view>
+		<!-- 评论列表 -->
+		<view>
+			<view style="font-size: 50rpx;margin: 20rpx 10rpx;">热门评论:</view>
+			<view class="content" v-for="item in songComment" :keys="item.id">
+				<image class="avatar" :src="item.user.avatarUrl" mode="avatar"></image>
+				<view class="contentarea">
+				<a class="nickName">{{item.user.nickname}}:</a>
+				<text class="commentContent">{{item.content}}</text>
 				</view>
 			</view>
-					<!-- 播放、暂停按钮 -->
-			<view class="other-flex">
-				<view class="other-img">
-					<image src="../../static/10qiehuanqizuo.png" @tap="lastsong"></image>
-					<image @tap="playsong" src="../../static/70BasicIcons-all-64.png" v-show="playbool"></image>
-					<image @tap="playsong" src="../../static/bofang.png" v-show="!playbool"></image>
-					<image src="../../static/9qiehuanqiyou.png" @tap="nextsong"></image>
-				</view>
-			</view>
-
 		</view>
 	</view>
 </template>
@@ -38,12 +44,11 @@
 				height: "",
 				id:'',
 				top:'',
-				playsongs:[],
 				songName:'',
 				author:'',
 				image:'',
-				musicUrl:'',
 				playState:0,
+				songComment:''
 			}
 		},
 		onLoad: function(id) {
@@ -52,12 +57,12 @@
 		  eventChannel.emit('someEvent', {data: 'id'});
 		  // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
 		  eventChannel.on('acceptDataFromOpenerPage', function(data) {
-			console.log(data)
 			mydata = data.data
 		  })
 		  this.id = mydata
 		  this.getsongsUrl()
 		  this.getsonglyric()
+		  this.getSongComment()
 		},
 		destroyed: () => {
 			const res = uni.navigateBack({
@@ -154,7 +159,14 @@
 				}
 			},
 			lastsong(){},
-			nextsong(){}
+			nextsong(){},
+			async getSongComment(id){
+				const res = await this.$myRequest({
+					url:'/comment/hot?id='+this.id+'&type=0'
+				})
+				this.songComment = res.data.hotComments
+				console.log(res.data.hotComments)
+			}
 		}
 	}
 </script>
@@ -202,4 +214,35 @@
 		display: flex;
 		justify-content: center;
 	}
+	.content{
+		width: 100%;
+		height: 220rpx;
+		border-top:1px dashed #000;
+	}
+	.avatar{
+		float: left;
+		height:80% ;
+		width: 186rpx;
+		margin: 22rpx 5rpx;
+	}
+	.contentarea{
+		margin: 22rpx 5rpx;
+		float: left;
+		width: 73%;
+		height: 80%;
+		word-break: break-all;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+	.nickName{
+		height: 100%;
+		margin: 22rpx 10rpx;
+		color:#5A73C6;
+	}
+	.commentContent{
+	}
+	a:link {color:#5A73C6;} /* 未访问的链接 */
+	a:visited {color:#00FF00;} /* 已访问的链接 */
+	a:hover {color:#FF00FF;} /* 鼠标划过链接 */
+	a:active {color:#0000FF;} /* 已选中的链接 */
 </style>

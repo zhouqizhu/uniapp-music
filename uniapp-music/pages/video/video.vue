@@ -49,7 +49,6 @@
 					url:'/top/mv?limit=14'
 				})
 				this.recommedvideo = res.data.data
-				console.log(res.data.data)
 			},
 			async getAllMv(){
 				const res = await this.$myRequest({

@@ -3,11 +3,16 @@
 		<view class="videoplay">
 			<video :src="videoUrl" class="videocontent" autoplay></video>
 			<view class="videomsg">{{vidoeMsg.name}}</view>
-			<view class="videomsgname">{{vidoeMsg.artistName}}</view>
-			<view class="simisong" v-for="item in simimv" :key="item.id" @click="toplay(item.id)">
-				<image :src="item.cover" class="simicover"></image>
-				<view class="" class="simibriefDesc">{{item.briefDesc}}</view>
-				<view class="" class="siminame">{{item.name}}</view>
+			<view class="videomsgname">作者：{{vidoeMsg.artistName}}</view>
+			<view>
+				<view style="margin-left: 10rpx;">
+					相似视频
+				</view>
+				<view class="simisong" v-for="item in simimv" :key="item.id" @click="toplay(item.id)">
+					<image :src="item.cover" class="simicover"></image>
+					<view class="" class="simibriefDesc">{{item.briefDesc}}</view>
+					<view class="" class="siminame">{{item.name}}</view>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -31,7 +36,6 @@
 		  eventChannel.emit('someEvent', {data: 'id'});
 		  // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
 		  eventChannel.on('acceptDataFromOpenerPage', function(data) {
-			console.log(data)
 			mydata = data.data
 		  })
 		  this.id = mydata
@@ -53,7 +57,6 @@
 					url:'/mv/detail?mvid='+this.id
 				})
 				this.vidoeMsg = res.data.data
-				console.log(res)
 			},
 			// 相关视频
 			async relatedvideo(id){
@@ -61,7 +64,6 @@
 					url:'/simi/mv?mvid=' + this.id
 				})
 				this.simimv = res.data.mvs
-				console.log(res.data.mvs)
 			},
 			toplay(id){
 				uni.navigateTo({
@@ -108,8 +110,8 @@
 		float: left;
 		text-align: center;
 		width: 300rpx;
-		height: 100rpx;
-		margin: 20rpx auto;
+		height: 70rpx;
+		margin: 10rpx auto;
 		font-weight: bolder;
 	}
 	.siminame{

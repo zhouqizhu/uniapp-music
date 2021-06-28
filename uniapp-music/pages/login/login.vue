@@ -15,6 +15,7 @@
 </template>
 
 <script>
+	import {mapState,mapMutations} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -27,6 +28,8 @@
 		onLoad() {
 			this.initForm()
 		},
+		// 在 computed 计算属性方法中使用  mapState 对全局变量进行监控，在 method中使用  mapMutations  进行全局方法监控
+		computed:mapState(['forcedLogin','hasLogin']),
 		methods: {
 			// 初始化表单
 			initForm(){
@@ -60,7 +63,6 @@
 					method:"POST",
 					success: (res) => {
 						this.$store.commit('login',res)
-						console.log(11)
 						uni.navigateBack({
 							delta:1
 						})

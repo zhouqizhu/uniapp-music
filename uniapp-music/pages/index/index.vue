@@ -59,17 +59,19 @@
 			if(!this.hasLogin){
 				uni.showModal({
 					title:'未登录',
-					content:'您未登录，需要登陆后才能继续',
+					content:'您未登录，需要登陆后才能获取更多内容',
 					showCancel:!this.forcedLogin,
 					success: (res) => {
-						if(this.forcedLogin){
-							uni.reLaunch({
-								url:'../login/login'
-							})
-						}else{
-							uni.navigateTo({
-								url:'../login/login'
-							})
+						if(res.confirm){
+							if(this.forcedLogin){
+								uni.reLaunch({
+									url:'../login/login'
+								})
+							}else{
+								uni.navigateTo({
+									url:'../login/login'
+								})
+							}
 						}
 					}
 				})
@@ -77,6 +79,7 @@
 			this.getHotPlayLists()
 			this.getNewSongs()
 			this.toplists()
+			this.test()
 		},
 		methods:{
 			async getHotPlayLists(){
@@ -84,14 +87,12 @@
 					url:'/top/playlist/highquality?limit=8'
 				})
 				this.playLists = res.data.playlists
-				console.log(this.playLists)
 			},
 			async getNewSongs(){
 				const res = await this.$myRequest({
 					url:'/personalized/newsong?limit=5'
 				})
 				this.newSongs = res.data.result
-				console.log(res.data.result)
 			},
 			tosearch(){
 				uni.navigateTo({
@@ -104,12 +105,17 @@
 				})
 				this.artistToplist = res.data.artistToplist.artists
 				this.rewardToplist = res.data.rewardToplist.songs
-				console.log(res.data.rewardToplist.songs)
 			},
 			morePlayLists(){
 				uni.navigateTo({
 					url:'../../common/hotplaylists/hotplaylists'
 				})
+			},
+			async test(){
+				const res = await this.$myRequest({
+					url:'/playlist/video/recent'
+				})
+				console.log(res)
 			}
 		}
 	}

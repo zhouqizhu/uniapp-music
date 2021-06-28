@@ -1,7 +1,7 @@
 <template>
 	<view style="height: 440rpx;">
 		<scroll-view scroll-x="true" @scroll="scroll" style="width: 200%;overflow:hidden;white-space:nowrap;">
-			<scroll-view class="playLists" v-for="item in playLists" :key="item.id">
+			<scroll-view class="playLists" v-for="item in playLists" :key="item.id" @click="toliatsdetail(item.id)">
 				<image :src="item.coverImgUrl"></image>
 				<view class="playListsName">{{item.name}}</view>
 			</scroll-view>
@@ -24,6 +24,17 @@
 		methods:{
 			scroll:function(e){
 				this.old.scrollTop = e.detail.scrollTop
+			},
+			toliatsdetail(id){
+				uni.navigateTo({
+					url:'../../common/listdetail/listdetail',
+					success:function(res){
+						res.eventChannel.emit('acceptDataFromOpenerPage', { data: id })
+					},
+					fail() {
+						console.log("跳转失败")
+					}
+				})
 			}
 		}
 	}

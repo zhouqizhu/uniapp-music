@@ -151,7 +151,6 @@
 					content: '确定清除历史搜索记录？',
 					success: (res) => {
 						if (res.confirm) {
-							console.log('用户点击确定');
 							this.oldKeywordList = [];
 							uni.removeStorage({
 								key: 'OldKeys'

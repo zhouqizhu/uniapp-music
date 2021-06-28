@@ -2,7 +2,7 @@
 	<view>
 		<view class="title">歌名</view>
 		<view class="title">歌手</view>
-		<view class="songMsg" v-for="item in songlists" :keys="item.id" @click="playsong(item.id)">
+		<view class="songMsg" v-for="item in songLists" :keys="item.id" @click="playsong(item.id)">
 			<view class="songName">{{item.name}}</view>
 			<view class="songAr">{{item.ar[0].name}}</view>
 		</view>
@@ -14,7 +14,7 @@
 	export default {
 		data() {
 			return {
-				songlists:''
+				songLists:[]
 			}
 		},
 		onLoad: function(id) {
@@ -24,18 +24,24 @@
 		  // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
 		  eventChannel.on('acceptDataFromOpenerPage', function(data) {
 			mydata = data.data
+			console.log(data)
 		  })
 		  this.id = mydata
-		  this.getresult()
+		  this.getlistsdetail()
 		},
 		methods: {
-			async getresult(id){
+			async getlistsdetail(id){
 				const res = await this.$myRequest({
-					url:'/cloudsearch?keywords='+this.id
+					url:'/playlist/detail?id='+this.id
 				})
-				this.songlists = res.data.result.songs
+				let playlists = res.data.playlist.trackIds
+				for(var i=0;i<playlists.length;i++){
+					const res = await this.$myRequest({
+						url:'/song/detail?ids='+playlists[i].id
+					})
+					this.songLists.push(res.data.songs[0])
+				}
 			},
-			// 跳转到播放页
 			playsong(id){
 				uni.navigateTo({
 					url:'../../common/playsongs/playsongs',
@@ -62,18 +68,18 @@
 	}
 	.songMsg{
 		width: 100%;
-		height: 50rpx;
+		height: 70rpx;
 		margin: 10rpx auto;
 		float: left;
 		background-color: #f5f5f5;
 	}
 	.songName{
 		float: left;
-		margin: 10rpx 5rpx;
+		margin: 3% 5rpx;
 		width: 55%;
 		font-weight: bolder;
-		font-size: 10%;
-
+		font-size: 13%;
+	
 	}
 	.songAr{
 		float: right;
@@ -81,5 +87,7 @@
 		margin: 10rpx 5rpx;
 		word-wrap:break-word;
 		text-align: center;
+		font-size: 20%;
+		margin-top: auto;
 	}
 </style>
